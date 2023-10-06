@@ -16,6 +16,7 @@ public:
     string getAmigos();
     void agregarAmigo(Usuario);
     void eliminarAmigo(Usuario);
+    string toString();
 };
 
 Social::Social():Software(){};
@@ -41,3 +42,6 @@ void Social::eliminarAmigo(Usuario amistad){
     */
     return;
 };
+string Social::toString(){
+    return "Tipo: Social, Nombre : " + nombre + ", Developer: " + developer + ", Edad recomendada: " + to_string(restriccion)+ ", Precio: " + to_string(precio);
+}

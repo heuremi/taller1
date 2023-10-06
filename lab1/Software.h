@@ -6,26 +6,28 @@ using namespace std;
 
 class Software
 {
-private:
+public:
     string nombre;
     string developer;
     int restriccion;
     vector<Usuario> listaUsuarios; 
     int precio;
 
-public:
+//public:
     Software();
     Software(string, string, int, int);
     string getNombre();
     string getDeveloper();
     int getRestriccion();
     int getPrecio();
-    string getListaUsuarios();
+    string getNombreUsuario(int);
+    int getListaUsuariosSize();
     void setNombre(string);
     void setDeveloper(string);
     void setRestriccion(int);
     void setPrecio(int);
     void agregarUsuario(Usuario); 
+    virtual string toString();
 };
 
 Software::Software(){};
@@ -47,18 +49,17 @@ int Software::getRestriccion(){
 int Software::getPrecio(){
     return this -> precio;
 };
-string Software::getListaUsuarios(){
-    int usuarioSize = this -> listaUsuarios.size();
-    string usuarios = "";
-    for(int i = 0; i < usuarioSize; i++){
-        usuarios += "arreglar"; //ARREGLAR !!!!!!!
-    }
-    return usuarios;
+string Software::getNombreUsuario(int i){
+    return this -> listaUsuarios[i].getNombre();
+};
+int Software::getListaUsuariosSize(){
+    return this-> listaUsuarios.size();
 };
 void Software::setNombre(string nombre){this -> nombre = nombre;};
 void Software::setDeveloper(string developer){this -> developer = developer;};
 void Software::setRestriccion(int restriccion){this -> restriccion = restriccion;};
 void Software::setPrecio(int precio){this -> precio = precio;};
-void Software::agregarUsuario(Usuario usuario){ //CAMBIAR TIPOOOO
-    this -> listaUsuarios.push_back(usuario);
-};
+void Software::agregarUsuario(Usuario usuario){this -> listaUsuarios.push_back(usuario);};
+string Software::toString(){
+    return "Nombre : " + nombre + ", Developer: " + developer + ", Edad recomendada: " + to_string(restriccion) + ", Precio: " + to_string(precio);
+}

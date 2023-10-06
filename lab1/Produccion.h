@@ -13,6 +13,7 @@ public:
     Produccion(string, string, int, int, string);
     string getTipoDeSolucion();
     void setTipoDeSolucion(string);
+    string toString();
 };
 
 Produccion::Produccion():Software(){};
@@ -21,3 +22,6 @@ Produccion::Produccion(string nombre, string developer, int restriccion, int pre
 };
 string Produccion::getTipoDeSolucion(){return this -> tipoDeSolucion;};
 void Produccion::setTipoDeSolucion(string tipoDeSolucion){this -> tipoDeSolucion = tipoDeSolucion;};
+string Produccion::toString(){
+    return "Tipo: Produccion, Nombre : " + nombre + ", Developer: " + developer + ", Edad recomendada: " + to_string(restriccion)+ ", Precio: " + to_string(precio) + ", Tipo de solucion: " + tipoDeSolucion;
+};

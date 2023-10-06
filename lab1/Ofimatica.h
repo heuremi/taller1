@@ -15,6 +15,7 @@ public:
     int getCantArchivos();
     void agregarArchivo();
     void eliminarArchivo();
+    string toString();
 };
 
 Ofimatica::Ofimatica():Software(){};
@@ -24,3 +25,6 @@ Ofimatica::Ofimatica(string nombre, string developer, int restriccion, int preci
 int Ofimatica::getCantArchivos(){return this -> cantArchivos;};
 void Ofimatica::agregarArchivo(){this -> cantArchivos++;};
 void Ofimatica::eliminarArchivo(){this -> cantArchivos--;};
+string Ofimatica::toString(){
+    return "Tipo: Ofimatica, Nombre : " + nombre + ", Developer: " + developer + ", Edad recomendada: " + to_string(restriccion)+ ", Precio: " + to_string(precio) + ", Cantidad Archivos: " + to_string(cantArchivos);
+};

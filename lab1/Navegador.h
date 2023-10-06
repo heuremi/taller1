@@ -15,6 +15,7 @@ public:
     Navegador(string, string, int, int);
     string getHistorial();
     void visitarPagina(string);
+    string toString();
 };
 
 Navegador::Navegador():Software(){};
@@ -29,3 +30,6 @@ string Navegador::getHistorial(){
     }
     return nav;};
 void Navegador::visitarPagina(string pagina){this -> historial.push_back(pagina);};
+string Navegador::toString(){
+    return "Tipo: Navegador, Nombre : " + nombre + ", Developer: " + developer + ", Edad recomendada: " + to_string(restriccion)+ ", Precio: " + to_string(precio);
+};
