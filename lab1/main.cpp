@@ -15,45 +15,91 @@ vector<Software*> listaSoftwareUsuario;
 Usuario usuarioActual;
 
 void mostrarUsuarioSoftware(){
+    //si la lista de softwares del usuario esta vacia no se puede recorrer
     if(listaSoftwareUsuario.empty()){
         cout << "No tienes Softwares." << endl;
         return;
     }
+    //si la lista de softwares del usuario no esta vacia se recorre y se imprime 
     for(int i = 0; i < listaSoftwareUsuario.size(); i++){
         cout << listaSoftwareUsuario[i]->toString() << endl;
     }
 }
 
 void mostrarTodosSoftware(){
+    //Si no hay softwares no se puede recorrer
     if(bibliotecaSoftware.empty()){
         cout << "No existen Softwares." << endl;
         return;
     }
+    //Si hay softwares se recorre
     for(int i = 0; i < bibliotecaSoftware.size(); i++){
+        //Si es de tipo de seguridad solo es posible que lo accedan los usuarios administradores
         if(typeid(*bibliotecaSoftware[i]) == typeid(Seguridad)){
             if(usuarioActual.getLog()){
-                cout << i << ")" << bibliotecaSoftware[i]->toString() << endl;
+                cout << i+1 << ")" << bibliotecaSoftware[i]->toString() << endl;
             }
         } else {
+            //si el usuario es de tipo nino, solo puede ver los softwares para menores de 18
             if(usuarioActual.getEdad() < 18 && bibliotecaSoftware[i]->getRestriccion() < 18){
-                cout << bibliotecaSoftware[i]->toString() << endl;
-            } else if(usuarioActual.getEdad() >= 18) {
-                cout << bibliotecaSoftware[i]->toString() << endl;
+                cout << i+1 << ")" << bibliotecaSoftware[i]->toString() << endl;
+            }
+            // si el usuario es normal puede ver todos los softwares menos seguridad
+            else if(usuarioActual.getEdad() >= 18) {
+                cout << i+1 << ")" << bibliotecaSoftware[i]->toString() << endl;
             }
         }
     }
 }
 
-void agregarSoftware(){
+bool existirSoftwareEnListaUsuario(Software softwareBuscado){
+    for(int i = 0; i < listaSoftwareUsuario.size(); i++){
+        //si se encuentra el software buscado en la lista del usuario actual, se retorna verdadero
+        if(listaSoftwareUsuario[i]->getNombre() == softwareBuscado.getNombre()){
+            return true;
+        }
+    }
+    //en caso de que el software no este en la lista del usuario actual
+    return false;
+}
 
+void agregarSoftware(){
+    cout << "Ingrese el numero del software a agregar:" << endl;
+    int numero;
+    cin >> numero;
+    if(bibliotecaSoftware[numero-1] != nullptr && !existirSoftwareEnListaUsuario(*bibliotecaSoftware[numero-1])){
+        //si es administrador, se puede agregar cualquier software a su biblioteca
+        if(usuarioActual.getLog()){
+           listaSoftwareUsuario.push_back(bibliotecaSoftware[numero-1]);
+           bibliotecaSoftware[numero-1]->agregarUsuario(usuarioActual);
+           cout << "Software agregado con exito." << endl;
+           return;
+        } 
+        //revisar si el software tiene restriccion
+        else if(typeid(*bibliotecaSoftware[numero-1]) != typeid(Seguridad)){
+            //si es nino, que sea para menores de 18
+            if(usuarioActual.getEdad() < 18 && bibliotecaSoftware[numero-1]->getRestriccion() < 18){
+                listaSoftwareUsuario.push_back(bibliotecaSoftware[numero-1]);
+                bibliotecaSoftware[numero-1]->agregarUsuario(usuarioActual);
+                cout << "Software agregado con exito." << endl;
+                return;
+            } //si tiene restriccion pero el usuario es mayor de edad, lo puede agregar
+            else if(usuarioActual.getEdad() >= 18){
+                listaSoftwareUsuario.push_back(bibliotecaSoftware[numero-1]);
+                bibliotecaSoftware[numero-1]->agregarUsuario(usuarioActual);
+                cout << "Software agregado con exito." << endl;
+                return;
+            }
+        }
+    }
+    cout << "El software no pudo ser agregado." << endl;
 }
 
 void eliminarSoftware(){
-
+    //pendiente
 }
 
 void buscarBibliotecaUsuario(){
-    listaSoftwareUsuario.clear();
     for(int i = 0; i < bibliotecaSoftware.size(); i++){
         Software softwareActual = *bibliotecaSoftware[i]; //REVISAR
         for(int j = 0; j < softwareActual.getListaUsuariosSize(); j++){
@@ -76,6 +122,7 @@ bool login(){
             if(bibliotecaUsuario[i].getPassword() == password){
                 cout << "Iniciaste sesion." << endl;
                 usuarioActual = bibliotecaUsuario[i];
+                listaSoftwareUsuario.clear();
                 buscarBibliotecaUsuario();
                 return true;
             } else {
