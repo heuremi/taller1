@@ -12,7 +12,7 @@ using namespace std;
 vector<Software*> bibliotecaSoftware;
 vector<Usuario> bibliotecaUsuario;
 vector<Software*> listaSoftwareUsuario;
-Usuario usuarioActual;
+Usuario* usuarioActual;
 
 void mostrarUsuarioSoftware(){
     //si la lista de softwares del usuario esta vacia no se puede recorrer
@@ -22,7 +22,7 @@ void mostrarUsuarioSoftware(){
     }
     //si la lista de softwares del usuario no esta vacia se recorre y se imprime 
     for(int i = 0; i < listaSoftwareUsuario.size(); i++){
-        cout << listaSoftwareUsuario[i]->toString() << endl;
+        cout << "ID en tu biblioteca: " << i+1 << ", " << listaSoftwareUsuario[i]->toString() << endl;
     }
 }
 
@@ -36,17 +36,17 @@ void mostrarTodosSoftware(){
     for(int i = 0; i < bibliotecaSoftware.size(); i++){
         //Si es de tipo de seguridad solo es posible que lo accedan los usuarios administradores
         if(typeid(*bibliotecaSoftware[i]) == typeid(Seguridad)){
-            if(usuarioActual.getLog()){
-                cout << i+1 << ")" << bibliotecaSoftware[i]->toString() << endl;
+            if(usuarioActual->getLog()){
+                cout << "ID: " << i+1 << ", " << bibliotecaSoftware[i]->toString() << endl;
             }
         } else {
             //si el usuario es de tipo nino, solo puede ver los softwares para menores de 18
-            if(usuarioActual.getEdad() < 18 && bibliotecaSoftware[i]->getRestriccion() < 18){
-                cout << i+1 << ")" << bibliotecaSoftware[i]->toString() << endl;
+            if(usuarioActual->getEdad() < 18 && bibliotecaSoftware[i]->getRestriccion() < 18){
+                cout << "ID: " << i+1 << ", " << bibliotecaSoftware[i]->toString() << endl;
             }
             // si el usuario es normal puede ver todos los softwares menos seguridad
-            else if(usuarioActual.getEdad() >= 18) {
-                cout << i+1 << ")" << bibliotecaSoftware[i]->toString() << endl;
+            else if(usuarioActual->getEdad() >= 18) {
+                cout << "ID: " << i+1 << ", " << bibliotecaSoftware[i]->toString() << endl;
             }
         }
     }
@@ -64,12 +64,13 @@ bool existirSoftwareEnListaUsuario(Software softwareBuscado){
 }
 
 void agregarSoftware(){
-    cout << "Ingrese el numero del software a agregar:" << endl;
+    cout << "Ingrese el ID del software a agregar:" << endl;
     int numero;
     cin >> numero;
+    //verificar que el numero sea valido y que no exista ya en la lista de software del usuario
     if(bibliotecaSoftware[numero-1] != nullptr && !existirSoftwareEnListaUsuario(*bibliotecaSoftware[numero-1])){
         //si es administrador, se puede agregar cualquier software a su biblioteca
-        if(usuarioActual.getLog()){
+        if(usuarioActual->getLog()){
            listaSoftwareUsuario.push_back(bibliotecaSoftware[numero-1]);
            bibliotecaSoftware[numero-1]->agregarUsuario(usuarioActual);
            cout << "Software agregado con exito." << endl;
@@ -78,13 +79,13 @@ void agregarSoftware(){
         //revisar si el software tiene restriccion
         else if(typeid(*bibliotecaSoftware[numero-1]) != typeid(Seguridad)){
             //si es nino, que sea para menores de 18
-            if(usuarioActual.getEdad() < 18 && bibliotecaSoftware[numero-1]->getRestriccion() < 18){
+            if(usuarioActual->getEdad() < 18 && bibliotecaSoftware[numero-1]->getRestriccion() < 18){
                 listaSoftwareUsuario.push_back(bibliotecaSoftware[numero-1]);
                 bibliotecaSoftware[numero-1]->agregarUsuario(usuarioActual);
                 cout << "Software agregado con exito." << endl;
                 return;
             } //si tiene restriccion pero el usuario es mayor de edad, lo puede agregar
-            else if(usuarioActual.getEdad() >= 18){
+            else if(usuarioActual->getEdad() >= 18){
                 listaSoftwareUsuario.push_back(bibliotecaSoftware[numero-1]);
                 bibliotecaSoftware[numero-1]->agregarUsuario(usuarioActual);
                 cout << "Software agregado con exito." << endl;
@@ -96,15 +97,25 @@ void agregarSoftware(){
 }
 
 void eliminarSoftware(){
-    //pendiente
+    cout << "Ingrese el ID del software a agregar:" << endl;
+    int numero;
+    cin >> numero;
+    if(bibliotecaSoftware[numero-1] != nullptr){
+        listaSoftwareUsuario.erase(listaSoftwareUsuario.begin()+numero-1);
+        if(bibliotecaSoftware[numero-1]->eliminarUsuario(usuarioActual)){
+            cout << "El software fue eliminado con exito." << endl;
+        } else {
+            cout << "El software no pudo ser eliminado." << endl;
+        }
+    }
 }
 
 void buscarBibliotecaUsuario(){
     for(int i = 0; i < bibliotecaSoftware.size(); i++){
-        Software softwareActual = *bibliotecaSoftware[i]; //REVISAR
-        for(int j = 0; j < softwareActual.getListaUsuariosSize(); j++){
-            if(usuarioActual.getNombre() == softwareActual.getNombreUsuario(i)){
-                listaSoftwareUsuario.push_back(&softwareActual);
+        Software* softwareActual = bibliotecaSoftware[i]; 
+        for(int j = 0; j < softwareActual->getListaUsuariosSize(); j++){
+            if(usuarioActual->getNombre() == softwareActual->getNombreUsuario(j)){
+                listaSoftwareUsuario.push_back(softwareActual);
             }
         }
     }
@@ -121,7 +132,7 @@ bool login(){
         if(bibliotecaUsuario[i].getNombre() == nombre){
             if(bibliotecaUsuario[i].getPassword() == password){
                 cout << "Iniciaste sesion." << endl;
-                usuarioActual = bibliotecaUsuario[i];
+                usuarioActual = &bibliotecaUsuario[i];;
                 listaSoftwareUsuario.clear();
                 buscarBibliotecaUsuario();
                 return true;
@@ -154,10 +165,10 @@ void menu(){
     } else if(opcion == "4"){
         eliminarSoftware();
     } else if(opcion == "5"){
-        cout << "Cerrando sesion" << endl;
+        cout << "Cerrando sesion." << endl;
         return;
     } else {
-        cout << "Opcion invalida" << endl;
+        cout << "Opcion invalida." << endl;
     }
     menu();
 }
