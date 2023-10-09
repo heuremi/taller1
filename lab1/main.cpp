@@ -37,16 +37,16 @@ void mostrarTodosSoftware(){
         //Si es de tipo de seguridad solo es posible que lo accedan los usuarios administradores
         if(typeid(*bibliotecaSoftware[i]) == typeid(Seguridad)){
             if(usuarioActual->getLog()){
-                cout << "ID: " << i+1 << ", " << bibliotecaSoftware[i]->toString() << endl;
+                cout << "ID General: " << i+1 << ", " << bibliotecaSoftware[i]->toString() << endl;
             }
         } else {
             //si el usuario es de tipo nino, solo puede ver los softwares para menores de 18
             if(usuarioActual->getEdad() < 18 && bibliotecaSoftware[i]->getRestriccion() < 18){
-                cout << "ID: " << i+1 << ", " << bibliotecaSoftware[i]->toString() << endl;
+                cout << "ID General: " << i+1 << ", " << bibliotecaSoftware[i]->toString() << endl;
             }
             // si el usuario es normal puede ver todos los softwares menos seguridad
             else if(usuarioActual->getEdad() >= 18) {
-                cout << "ID: " << i+1 << ", " << bibliotecaSoftware[i]->toString() << endl;
+                cout << "ID General: " << i+1 << ", " << bibliotecaSoftware[i]->toString() << endl;
             }
         }
     }
@@ -100,9 +100,12 @@ void eliminarSoftware(){
     cout << "Ingrese el ID del software a agregar:" << endl;
     int numero;
     cin >> numero;
-    if(bibliotecaSoftware[numero-1] != nullptr){
-        listaSoftwareUsuario.erase(listaSoftwareUsuario.begin()+numero-1);
-        if(bibliotecaSoftware[numero-1]->eliminarUsuario(usuarioActual)){
+    //revisar si el id del software existe
+    if(listaSoftwareUsuario[numero-1] != nullptr){
+        //se revisa si se puede eliminar el usuario de la lista de usuarios del software
+        if(listaSoftwareUsuario[numero-1]->eliminarUsuario(usuarioActual)){
+            //se elimina el software de los softwares del usuario
+            listaSoftwareUsuario.erase(listaSoftwareUsuario.begin()+numero-1);
             cout << "El software fue eliminado con exito." << endl;
         } else {
             cout << "El software no pudo ser eliminado." << endl;
@@ -111,9 +114,12 @@ void eliminarSoftware(){
 }
 
 void buscarBibliotecaUsuario(){
+    //se recorre la biblioteca general de software
     for(int i = 0; i < bibliotecaSoftware.size(); i++){
         Software* softwareActual = bibliotecaSoftware[i]; 
+        //se recorre la lista de usuarios del software actual
         for(int j = 0; j < softwareActual->getListaUsuariosSize(); j++){
+            //se revisa si el usuario del software coincide con el usuario actual
             if(usuarioActual->getNombre() == softwareActual->getNombreUsuario(j)){
                 listaSoftwareUsuario.push_back(softwareActual);
             }
@@ -128,12 +134,18 @@ bool login(){
     cin >> nombre;
     cout << "Contrasena: ";
     cin >> password;
+    //se recorren los usuarios
     for(int i = 0; i < bibliotecaUsuario.size(); i++){
+        //si el usuario existe
         if(bibliotecaUsuario[i].getNombre() == nombre){
+            //si la contrasena es correcta
             if(bibliotecaUsuario[i].getPassword() == password){
                 cout << "Iniciaste sesion." << endl;
-                usuarioActual = &bibliotecaUsuario[i];;
+                //en caso de acceder, pasa a ser el usuario actual
+                usuarioActual = &bibliotecaUsuario[i];
+                //se limpia la lista anterior
                 listaSoftwareUsuario.clear();
+                //se buscan los softwares que tiene el usuario
                 buscarBibliotecaUsuario();
                 return true;
             } else {
@@ -337,6 +349,7 @@ int main()
         if(login()){
             menu();
         }
+        //si se quiere iniciar sesion, se repite nuevamente el login
         volverSesion = consultarLogIn();
     }
     
