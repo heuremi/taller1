@@ -63,6 +63,15 @@ bool existirSoftwareEnListaUsuario(Software softwareBuscado){
     return false;
 }
 
+int buscarSoftware(Software* software){
+    for(int i = 0; i < bibliotecaSoftware.size(); i++){
+        if(bibliotecaSoftware[i]->getNombre() == software->getNombre()){
+            return i;
+        }
+    }
+    return -1;
+}
+
 void agregarSoftware(){
     cout << "Ingrese el ID del software a agregar:" << endl;
     int numero;
@@ -96,17 +105,40 @@ void agregarSoftware(){
     cout << "El software no pudo ser agregado." << endl;
 }
 
+bool revisarEliminarSoftware(Software* softwareActual){
+    if(softwareActual->getListaUsuariosSize() == 0){
+        bibliotecaSoftware.erase(bibliotecaSoftware.begin()+buscarSoftware(softwareActual));
+        return true;
+    } 
+    return false;
+}
+
 void eliminarSoftware(){
-    cout << "Ingrese el ID del software a agregar:" << endl;
+    cout << "Ingrese el ID en tu biblioteca del software a eliminar:" << endl;
     int numero;
     cin >> numero;
     //revisar si el id del software existe
     if(listaSoftwareUsuario[numero-1] != nullptr){
+        Software* softwareActual = listaSoftwareUsuario[numero-1];
         //se revisa si se puede eliminar el usuario de la lista de usuarios del software
         if(listaSoftwareUsuario[numero-1]->eliminarUsuario(usuarioActual)){
             //se elimina el software de los softwares del usuario
             listaSoftwareUsuario.erase(listaSoftwareUsuario.begin()+numero-1);
             cout << "El software fue eliminado con exito." << endl;
+            cout << "Deseas que el software sea eliminado de forma permanente? (Se consultará a todos los usuarios que utilizan el software)\n1) Si.\n2) No." << endl;
+            string opcion;
+            cin >> opcion;
+            if(opcion == "1"){
+                if(revisarEliminarSoftware(softwareActual)){
+                    cout << "El software fue eliminado de forma permanente." << endl;
+                } else {
+                    cout << "Se seguirá consultando al resto de los usuarios." << endl;
+                }
+            } else if(opcion == "2"){
+                cout << "El software no se eliminara de forma permanente." << endl;
+            } else {
+                cout << "Opcion invalida, retornando al menu." << endl;
+            }
         } else {
             cout << "El software no pudo ser eliminado." << endl;
         }
