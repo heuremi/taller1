@@ -145,3 +145,11 @@ Software Social(2)
 so1: {nombre:"Instagram"; developer:"Meta"; restriccion:0; precio:0}.
 
 so2: {nombre:"Twitter"; developer:"X"; restriccion:18; precio:0}.
+
+Comandos desde el terminal para iniciar el programa:
+
+cd lab1
+
+g++ -o main main.cpp
+
+./main
