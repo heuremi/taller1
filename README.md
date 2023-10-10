@@ -1,9 +1,9 @@
 # Laboratorio 1
 
-##Objetos creados en el main:
+## Objetos creados en el main:
 
 
-###----- USUARIOS -----
+### USUARIOS 
 
 
 Usuario administrador
@@ -45,7 +45,7 @@ nor9: {nombre:"Agustin"; contrasena:"tiburoncin18"; edad:19; correo:"agusstd@gma
 nor10: {nombre:"Lia"; contrasena:"gravedad999"; edad:34; correo:"liaaa_2@gmail.com"; log:"false"}.
 
 
-###----- SOFTWARES -----
+### SOFTWARES
 
 
 Software Juego (20)
@@ -145,7 +145,7 @@ so1: {nombre:"Instagram"; developer:"Meta"; restriccion:0; precio:0}.
 
 so2: {nombre:"Twitter"; developer:"X"; restriccion:18; precio:0}.
 
-##FUNCIONES DEL MAIN
+## FUNCIONES DEL MAIN
 
 mostrarUsuarioSoftware: Muestra los softwares del usuario actual. [void]
 
@@ -171,7 +171,7 @@ accederSoftware(): Se acceden a los softwares según su tipo. [void]
 
 menu(): Funcion menu, redirige al resto de las opciones. [void]
 
-##COMANDOS PARA INICIAR EL PROGRAMA DESDE LA TERMINAL
+## COMANDOS PARA INICIAR EL PROGRAMA DESDE LA TERMINAL
 
 cd lab1
 
