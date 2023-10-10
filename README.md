@@ -1,4 +1,4 @@
-# Laboratorio 1
+# Laboratorio 1 Constanza Vázquez Cortés
 
 ## Objetos creados en el main:
 
