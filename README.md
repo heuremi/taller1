@@ -145,7 +145,7 @@ so1: {nombre:"Instagram"; developer:"Meta"; restriccion:0; precio:0}.
 
 so2: {nombre:"Twitter"; developer:"X"; restriccion:18; precio:0}.
 
-## FUNCIONES DEL MAIN
+## Funciones del main
 
 mostrarUsuarioSoftware: Muestra los softwares del usuario actual. [void]
 
@@ -169,9 +169,11 @@ accederOfimatica(Ofimatica*): Se accede a las opciones de ofimatica. [void]
 
 accederSoftware(): Se acceden a los softwares según su tipo. [void]
 
+verLog(): Se consulta por el software a buscar y se muestra la lista de usuarios del software. [void]
+
 menu(): Funcion menu, redirige al resto de las opciones. [void]
 
-## COMANDOS PARA INICIAR EL PROGRAMA DESDE LA TERMINAL
+## Comandos para iniciar el codigo desde la terminal 
 
 cd lab1
 

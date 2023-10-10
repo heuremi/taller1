@@ -263,6 +263,27 @@ void accederSoftware(){
     }
 }
 
+//se consulta por el software a buscar y se muestra la lista de usuarios del software.
+void verLog(){
+    //se muestran todos los softwares de la lista general de softwares.
+    mostrarTodosSoftware();
+    cout << "Ingrese el ID del software: " << endl;
+    int id;
+    cin >> id;
+    if(id - 1 <= bibliotecaSoftware.size()){
+        //si la lista de usuarios del software no tiene usuarios.
+        if(bibliotecaSoftware[id-1]->getListaUsuariosSize() == 0){
+            cout << "El software no tiene usuarios." << endl;
+            return;
+        }
+        cout << "Usuarios del software " << bibliotecaSoftware[id-1]->getNombre() << ":" <<endl;
+        for(int i = 0; i < bibliotecaSoftware[id-1]->getListaUsuariosSize(); i++){
+            cout << bibliotecaSoftware[id-1]->getNombreUsuario(i) << endl;
+        }
+        cout << "Total de usuarios: " << bibliotecaSoftware[id-1]->getListaUsuariosSize() << endl;
+    }
+}
+
 //funcion menu, redirige al resto de las opciones.
 void menu(){
     string opcion;
@@ -274,6 +295,9 @@ void menu(){
     cout << "4) Eliminar Software." << endl;
     cout << "5) Acceder a un Software." << endl;
     cout << "6) Log out. " << endl;
+    if(usuarioActual->getLog()){
+        cout << "7) Ver Log." << endl;
+    }
     cin >> opcion;
     if(opcion == "1"){
         mostrarUsuarioSoftware();
@@ -288,6 +312,8 @@ void menu(){
     } else if(opcion == "6"){
         cout << "Cerrando sesion." << endl;
         return;
+    } else if(opcion == "7" && usuarioActual->getLog()){
+        verLog();
     } else {
         cout << "Opcion invalida." << endl;
     }
