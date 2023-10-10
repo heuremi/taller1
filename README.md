@@ -1,10 +1,9 @@
-# taller1
-Taller 1 Estructura de Datos
+# Laboratorio 1
 
-Objetos creados en el main:
+##Objetos creados en el main:
 
 
------ USUARIOS -----
+###----- USUARIOS -----
 
 
 Usuario administrador
@@ -46,7 +45,7 @@ nor9: {nombre:"Agustin"; contrasena:"tiburoncin18"; edad:19; correo:"agusstd@gma
 nor10: {nombre:"Lia"; contrasena:"gravedad999"; edad:34; correo:"liaaa_2@gmail.com"; log:"false"}.
 
 
------ SOFTWARES -----
+###----- SOFTWARES -----
 
 
 Software Juego (20)
@@ -146,7 +145,33 @@ so1: {nombre:"Instagram"; developer:"Meta"; restriccion:0; precio:0}.
 
 so2: {nombre:"Twitter"; developer:"X"; restriccion:18; precio:0}.
 
-Comandos desde el terminal para iniciar el programa:
+##FUNCIONES DEL MAIN
+
+mostrarUsuarioSoftware: Muestra los softwares del usuario actual. [void]
+
+mostrarTodosSoftware: Muestra los softwares de la lista general de softwares. [void]
+
+existirSoftwareEnListaUsuario(Software): Revisa si existe un software en la lista de softwares del usuario actual, retorna true en caso de ser encontrado y false en caso de no existir. [bool]
+
+buscarSoftware(Software*): Busca un software en la lista general de softwares, retorna la posicion del software en la lista. [int]
+
+buscarUsuario(string): Busca un usuario en la lista general de usuarios, retorna la posicion en la lista. [int]
+
+agregarSoftware(): Agrega un software en la lista de softwares del usuario. [void]
+
+revisarEliminarSoftware(Software*): Revisa si se puede eliminar el software de forma permanente, retorna true si puede hacerlo y false en caso contrario. [bool]
+
+eliminarSoftware(): Elimina un software en la lista de softwares del usuario. [void]
+
+login(): Inicio sesion, verifica que el usuario exista, y que el usuario y la contrasena sean correctas. [bool]
+
+accederOfimatica(Ofimatica*): Se accede a las opciones de ofimatica. [void]
+
+accederSoftware(): Se acceden a los softwares según su tipo. [void]
+
+menu(): Funcion menu, redirige al resto de las opciones. [void]
+
+##COMANDOS PARA INICIAR EL PROGRAMA DESDE LA TERMINAL
 
 cd lab1
 

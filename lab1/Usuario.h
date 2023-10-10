@@ -12,6 +12,7 @@ private:
     int edad;
     string correo;
     bool log;
+    vector<Software*> listaSoftwares;
 
 public:
     Usuario();
@@ -21,11 +22,15 @@ public:
     int getEdad();
     string getCorreo();
     bool getLog();
+    int getListaSoftwaresSize();
+    Software* getSoftware(int);
     void setNombre(string);
     void setPassword(string);
     void setEdad(int);
     void setCorreo(string); 
     void setLog(bool);
+    void agregarSoftware(Software*);
+    void eliminarSoftware(int);
 };
 
 Usuario::Usuario(){};
@@ -50,10 +55,21 @@ string Usuario::getCorreo(){
 };
 bool Usuario::getLog(){
     return this -> log;
-}
-
+};
+int Usuario::getListaSoftwaresSize(){
+    return this -> listaSoftwares.size();
+};
+Software* Usuario::getSoftware(int i){
+    return this -> listaSoftwares[i];
+};
 void Usuario::setNombre(string nombre){this -> nombre = nombre;};
 void Usuario::setPassword(string password){this -> password = password;};
 void Usuario::setEdad(int edad){this -> edad = edad;};
 void Usuario::setCorreo(string correo){this -> correo = correo;};
 void Usuario::setLog(bool log){this -> log = log;};
+void Usuario::agregarSoftware(Software* software){
+    this -> listaSoftwares.push_back(software);
+};
+void Usuario::eliminarSoftware(int i){
+    this -> listaSoftwares.erase(this -> listaSoftwares.begin() + i);
+};

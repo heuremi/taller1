@@ -8,14 +8,14 @@ using namespace std;
 class Social: public Software
 {
 private:
-    vector<Usuario> amigos;
+    vector<string> amigos;
 
 public:
     Social();
     Social(string, string, int, int);
     string getAmigos();
-    void agregarAmigo(Usuario);
-    void eliminarAmigo(Usuario);
+    void agregarAmigo(string);
+    void eliminarAmigo(string);
     string toString();
 };
 
@@ -24,22 +24,19 @@ Social::Social(string nombre, string developer, int restriccion, int precio):Sof
 string Social::getAmigos(){
     if(amigos.empty()) return "El usuario no tiene amigos.";
     string amistad = "";
-    /*
     for(int i = 0; i < this -> amigos.size(); i++){
-        amistad += ""; //arreglar eso
-    } */
+        amistad += amigos[i] + "\n"; //arreglar eso
+    }
     return amistad;
 };
-void Social::agregarAmigo(Usuario amistad){this -> amigos.push_back(amistad);};
-void Social::eliminarAmigo(Usuario amistad){
-    /*
+void Social::agregarAmigo(string amistad){this -> amigos.push_back(amistad);};
+void Social::eliminarAmigo(string amistad){
     for(int i = 0; i < amigos.size(); i++){
-        if(amigos[i].getNombre() == amistad.getNombre()){
-            //amigos.erase(i);
+        if(amigos[i] == amistad){
+            amigos.erase(amigos.begin()+i);
             return;
         }
     }
-    */
     return;
 };
 string Social::toString(){

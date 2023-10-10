@@ -1,7 +1,6 @@
 #pragma once
 #include <iostream>
 #include <vector>
-#include "Usuario.h"
 using namespace std;
 
 class Software
@@ -10,7 +9,7 @@ public:
     string nombre;
     string developer;
     int restriccion;
-    vector<Usuario*> listaUsuarios; 
+    vector<string> listaNombreUsuarios; 
     int precio;
 
 //public:
@@ -26,8 +25,8 @@ public:
     void setDeveloper(string);
     void setRestriccion(int);
     void setPrecio(int);
-    void agregarUsuario(Usuario*); 
-    bool eliminarUsuario(Usuario*);
+    void agregarUsuario(string); 
+    bool eliminarUsuario(string);
     virtual string toString();
 };
 
@@ -51,20 +50,20 @@ int Software::getPrecio(){
     return this -> precio;
 };
 string Software::getNombreUsuario(int i){
-    return this -> listaUsuarios[i]->getNombre();
+    return this -> listaNombreUsuarios[i];
 };
 int Software::getListaUsuariosSize(){
-    return this-> listaUsuarios.size();
+    return this-> listaNombreUsuarios.size();
 };
 void Software::setNombre(string nombre){this -> nombre = nombre;};
 void Software::setDeveloper(string developer){this -> developer = developer;};
 void Software::setRestriccion(int restriccion){this -> restriccion = restriccion;};
 void Software::setPrecio(int precio){this -> precio = precio;};
-void Software::agregarUsuario(Usuario* usuario){this -> listaUsuarios.push_back(usuario);};
-bool Software::eliminarUsuario(Usuario* usuario){
-    for(int i = 0; i < this->listaUsuarios.size(); i++){
-        if(this->listaUsuarios[i]->getNombre() == usuario->getNombre()){
-            this->listaUsuarios.erase(listaUsuarios.begin() + i);
+void Software::agregarUsuario(string nombreUsuario){this -> listaNombreUsuarios.push_back(nombreUsuario);};
+bool Software::eliminarUsuario(string nombreUsuario){
+    for(int i = 0; i < this->listaNombreUsuarios.size(); i++){
+        if(this -> listaNombreUsuarios[i] == nombreUsuario){
+            this->listaNombreUsuarios.erase(listaNombreUsuarios.begin() + i);
             return true; // Usuario encontrado y eliminado, devuelve true
         }
     }
